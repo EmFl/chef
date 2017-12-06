@@ -22,7 +22,7 @@ require "spec_helper"
 describe Chef::Provider::Package::Yum::PythonHelper do
   let(:helper) { Chef::Provider::Package::Yum::PythonHelper.instance }
 
-  it "propagates stacktraces on stderr from the forked subprocess" do
+  it "propagates stacktraces on stderr from the forked subprocess", :rhel do
     allow(helper).to receive(:yum_command).and_return("ruby -e 'raise \"your hands in the air\"'")
     expect { helper.package_query(:whatprovides, "tcpdump") }.to raise_error(/your hands in the air/)
   end
