@@ -211,8 +211,16 @@ class Chef
           python_helper.restart
         end
 
+        def yum_binary
+          @yum_binary ||=
+            begin
+              yum_binary = new_resource.yum_binary if new_resource.is_a?(Chef::Resource::YumPackage)
+              yum_binary ||= ::File.exist?("/usr/bin/yum-deprecated") ? "yum-deprecated" : "yum"
+            end
+        end
+
         def yum(*args)
-          shell_out_with_timeout!(a_to_s("yum", *args))
+          shell_out_with_timeout!(a_to_s(yum_binary, *args))
         end
 
         def safe_version_array
