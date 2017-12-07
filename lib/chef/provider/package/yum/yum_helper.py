@@ -33,9 +33,6 @@ def get_base():
     global base
     if base is None:
         base = yum.YumBase()
-        base.preconf.debuglevel = -5
-        base.preconf.errorlevel = -1
-        base.preconf.plugins = True
     return base
 
 def versioncompare(versions):
